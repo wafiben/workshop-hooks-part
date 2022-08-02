@@ -1,35 +1,40 @@
+import React, { useState } from "react";
 import "./App.css";
-import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [students, setStudents] = useState(["souheil"]);
-  const [student, setStudent] = useState("");
-  const handleIncrement = () => {
-    setCount(count + 1);
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({ email: "", name: "" });
+  const handleChangeEmail = (e) => {
+    setUser({ ...user, email: e.target.value });
   };
-  const handleDecremt = () => {
-    if (count > 0) setCount(count - 1);
+  const handleChangeName = (e) => {
+    setUser({ ...user, name: e.target.value });
   };
-  const handleChange = (event) => {
-    setStudent(event.target.value);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setUsers([...users, user]);
+
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStudents([...students, student]);
-    setStudent("");
-  };
+  const handleClear=()=>{
+    setUser({ email: "", name: "" });
+  }
   return (
     <div className="App">
-      <button onClick={handleIncrement}>+</button>
-      <h1>{count}</h1>
-      <button onClick={handleDecremt}>-</button>
       <form onSubmit={handleSubmit}>
-        <input type="text" onChange={handleChange} value={student} />
+        <div>
+          <input type="email" onChange={handleChangeEmail} value={user.email} />
+        </div>
+        <div>
+          <input type="text" onChange={handleChangeName} value={user.name} />
+        </div>
         <button type="submit">Submit</button>
+        <button onClick={handleClear}>clear</button>
       </form>
-      {students.map((elt, index) => (
-        <h1 key={index}>{elt}</h1>
+      {users.map((elt, index) => (
+        <div key={index}>
+          <h1> {elt.name}</h1>
+          <h1> {elt.email}</h1>
+        </div>
       ))}
     </div>
   );
